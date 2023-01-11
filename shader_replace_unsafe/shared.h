@@ -58,7 +58,6 @@ struct YYShaders {
 	PtrArrayPtr<YYNativeShader> native;
 };
 extern YYOriginalShaders gmlOriginal;
-#define gmlOriginalCount gmlOriginal.wrappers.count
 extern YYShaders gmlShaders;
 extern bool trouble;
 #define trouble_check(_ret) if (trouble) { shader_last_error = "The extension could not initialize."; return (_ret); }
@@ -100,6 +99,7 @@ struct CustomShader {
 		pixel.release();
 		#undef X
 	}
+	bool isDestroyed = false;
 };
 
 extern std::string shader_model;

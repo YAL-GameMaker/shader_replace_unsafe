@@ -180,7 +180,7 @@ CustomShader* shader_add_impl(const char* vertex_code, const char* fragment_code
 					if (vexists) continue;
 					YYShaderConstBufVar v{};
 					v.name = vname;
-					v.bufferIndex = cbufind;
+					v.bufferIndex = (int)cbufind;
 					v.offset = rvd.StartOffset; // Normalize to 16 byte alignment
 					v.data = cbuf.data + v.offset; // ?
 					v.type = D3DtoGMLvarType(rtd.Type);
@@ -207,12 +207,12 @@ CustomShader* shader_add_impl(const char* vertex_code, const char* fragment_code
 		nsh->vertexShader = vertex_shader;
 		nsh->vertexHeader = new YYShaderDataHeader();
 		nsh->vertexHeader->shaderData = vertex_blob->GetBufferPointer();
-		nsh->vertexHeader->shaderSize = vertex_blob->GetBufferSize();
+		nsh->vertexHeader->shaderSize = (int)vertex_blob->GetBufferSize();
 
 		nsh->pixelShader = pixel_shader;
 		nsh->pixelHeader = new YYShaderDataHeader();
 		nsh->pixelHeader->shaderData = pixel_blob->GetBufferPointer();
-		nsh->pixelHeader->shaderSize = pixel_blob->GetBufferSize();
+		nsh->pixelHeader->shaderSize = (int)pixel_blob->GetBufferSize();
 
 		auto wsh = new YYShader();
 		wsh->HLSL11.vertexShader = nsh->vertexHeader->shaderData;

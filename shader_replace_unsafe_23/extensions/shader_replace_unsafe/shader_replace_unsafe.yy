@@ -62,6 +62,18 @@
             1,
             1,
           ],"resourceVersion":"1.0","name":"shader_replace_raw","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"shader_destroy_raw","kind":11,"help":"","hidden":true,"returnType":2,"argCount":2,"args":[
+            1,
+            1,
+          ],"resourceVersion":"1.0","name":"shader_destroy_raw","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"shader_get_uniform_at_raw","kind":11,"help":"","hidden":true,"returnType":2,"argCount":2,"args":[
+            1,
+            1,
+          ],"resourceVersion":"1.0","name":"shader_get_uniform_at_raw","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"shader_get_uniform_name_raw","kind":11,"help":"","hidden":true,"returnType":1,"argCount":2,"args":[
+            1,
+            1,
+          ],"resourceVersion":"1.0","name":"shader_get_uniform_name_raw","tags":[],"resourceType":"GMExtensionFunction",},
         {"externalName":"shader_replace_unsafe_init_offset","kind":11,"help":"","hidden":true,"returnType":2,"argCount":2,"args":[
             1,
             1,
@@ -106,6 +118,9 @@
         {"name":"shader_set_path_raw","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
         {"name":"shader_add_raw","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
         {"name":"shader_replace_raw","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
+        {"name":"shader_destroy_raw","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
+        {"name":"shader_get_uniform_at_raw","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
+        {"name":"shader_get_uniform_name_raw","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
         {"name":"shader_replace_unsafe_init_offset","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
         {"name":"shader_replace_unsafe_init_1","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
         {"name":"shader_replace_unsafe_init_2","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
@@ -142,6 +157,18 @@
             2,
             2,
           ],"resourceVersion":"1.0","name":"shader_replace","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"shader_destroy","kind":2,"help":"shader_destroy(id:int)->bool","hidden":false,"returnType":2,"argCount":1,"args":[
+            2,
+          ],"resourceVersion":"1.0","name":"shader_destroy","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"shader_get_uniform_at","kind":2,"help":"shader_get_uniform_at(id:int, uniform_type:int, uniform_index:int)->int @dllg:defValue -1","hidden":false,"returnType":2,"argCount":3,"args":[
+            2,
+            2,
+            2,
+          ],"resourceVersion":"1.0","name":"shader_get_uniform_at","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"shader_get_uniform_name","kind":2,"help":"shader_get_uniform_name(id:int, uniform_index:int)->string","hidden":false,"returnType":2,"argCount":2,"args":[
+            2,
+            2,
+          ],"resourceVersion":"1.0","name":"shader_get_uniform_name","tags":[],"resourceType":"GMExtensionFunction",},
       ],"constants":[
         
       ],"ProxyFiles":[],"copyToTargets":-1,"order":[
@@ -153,6 +180,9 @@
         {"name":"shader_set_path","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
         {"name":"shader_add","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
         {"name":"shader_replace","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
+        {"name":"shader_destroy","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
+        {"name":"shader_get_uniform_at","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
+        {"name":"shader_get_uniform_name","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
       ],"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMExtensionFile",},
   ],
   "classname": "",

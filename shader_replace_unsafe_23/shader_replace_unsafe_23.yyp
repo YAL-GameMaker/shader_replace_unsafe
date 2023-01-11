@@ -13,6 +13,8 @@
     {"id":{"name":"scr_fsh","path":"scripts/scr_fsh/scr_fsh.yy",},"order":1,},
     {"id":{"name":"scr_oldsh","path":"scripts/scr_oldsh/scr_oldsh.yy",},"order":1,},
     {"id":{"name":"scr_live_shader_pair","path":"scripts/scr_live_shader_pair/scr_live_shader_pair.yy",},"order":3,},
+    {"id":{"name":"sfmt","path":"scripts/sfmt/sfmt.yy",},"order":4,},
+    {"id":{"name":"scr_dump_shader_uniforms","path":"scripts/scr_dump_shader_uniforms/scr_dump_shader_uniforms.yy",},"order":5,},
   ],
   "Options": [
     {"name":"Amazon Fire","path":"options/amazonfire/options_amazonfire.yy",},

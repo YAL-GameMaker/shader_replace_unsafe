@@ -57,7 +57,7 @@ dllx double shader_replace_unsafe_init_offset(cmbyte* _f1, cmbyte* _f2) {
 		if (!VirtualQuery(dest, &mbi, sizeof mbi)) continue;
 		if ((mbi.Protect & pExec) == 0) continue;
 		
-		return sizeof(void*) * i;
+		return (double)(sizeof(void*) * i);
 	}
 	return -1;
 }

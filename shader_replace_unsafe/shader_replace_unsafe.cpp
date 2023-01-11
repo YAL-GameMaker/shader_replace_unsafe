@@ -7,6 +7,7 @@
 #pragma comment(lib, "D3DCompiler.lib")
 #pragma comment(lib, "dxguid.lib")
 #include <d3dcompiler.h>
+#include <queue>
 
 std::vector<CustomShader*> customShaders{};
 
@@ -34,16 +35,34 @@ dllg bool shader_set_path(const char* path) {
 	return true;
 }
 
+// Leaving a hole in shader array is Extremely Dangerous so we won't
+// destroy shaders until we have a new shader to replace them with
+std::queue<int> reuseShaderIDs{};
+
 void shader_sync_uniforms(YYShader* shader);
 CustomShader* shader_add_impl(const char* vertex_code, const char* fragment_code, std::string name);
+
 /// @dllg:defValue -1
 dllg int shader_add(const char* vertex_code, const char* fragment_code, const char* name = "shader!") {
 	trouble_check(-1);
 	auto csh = shader_add_impl(vertex_code, fragment_code, name);
 	if (csh == nullptr) return -1;
 
-	auto natID = gmlShaders.native.add(csh->native);
-	auto id = gmlShaders.wrappers.add(csh->wrapped);
+	int natID, id;
+	if (reuseShaderIDs.empty()) {
+		natID = gmlShaders.native.add(csh->native);
+		id = gmlShaders.wrappers.add(csh->wrapped);
+	} else {
+		id = reuseShaderIDs.front();
+		reuseShaderIDs.pop();
+		auto old = customShaders[id];
+		natID = old->wrapped->shaderHandle;
+		gmlShaders.wrappers.set(id, csh->wrapped);
+		gmlShaders.native.set(natID, csh->native);
+		old->release();
+		delete old;
+	}
+
 	csh->wrapped->shaderHandle = natID;
 	csh->wrapped->id = id;
 	shader_sync_uniforms(csh->wrapped);
@@ -54,14 +73,13 @@ dllg int shader_add(const char* vertex_code, const char* fragment_code, const ch
 
 dllg bool shader_replace(int id, const char* vertex_code, const char* fragment_code) {
 	trouble_check(false);
-	if (id < 0 || id >= gmlShaders.wrappers.size()) {
+	auto orig = gmlShaders.wrappers.get(id);
+	if (orig == nullptr) {
 		shader_last_error = std::string("Shader index out of range (")
-			+ std::to_string(gmlShaders.wrappers.size()) + " total, requested "
+			+ std::to_string(gmlShaders.wrappers.size()) + " total, attempted ID "
 			+ std::to_string(id) + ")";
 		return false;
 	}
-
-	auto orig = gmlShaders.wrappers.get(id);
 
 	auto csh = shader_add_impl(vertex_code, fragment_code, orig->name);
 	if (csh == nullptr) return false;
@@ -81,6 +99,81 @@ dllg bool shader_replace(int id, const char* vertex_code, const char* fragment_c
 	setCustomShader(id, csh);
 
 	return true;
+}
+
+dllg bool shader_destroy(int id) {
+	trouble_check(false);
+	if (id < gmlOriginal.wrappers.count) {
+		shader_last_error = std::string("You cannot destroy bundled shaders (indexes up to ")
+			+ std::to_string(gmlShaders.wrappers.size()) + " non-inclusive, attempted ID "
+			+ std::to_string(id) + ")";
+		return false;
+	}
+	auto csh = getCustomShader(id);
+	if (csh == nullptr) {
+		shader_last_error = std::string("Shader index out of range (")
+			+ std::to_string(gmlShaders.wrappers.size()) + " total, attempted ID "
+			+ std::to_string(id) + ")";
+		return false;
+	}
+	if (csh->isDestroyed) {
+		shader_last_error = std::string("This shader is already destroyed (attempted ID ")
+			+ std::to_string(id) + ")";
+		return false;
+	}
+	csh->isDestroyed = true;
+	reuseShaderIDs.push(id);
+	return true;
+}
+
+/// @dllg:defValue -1
+dllg int shader_get_uniform_at(int id, int uniform_type, int uniform_index) {
+	trouble_check(-1);
+	auto wsh = gmlShaders.wrappers.get(id);
+	if (wsh == nullptr) {
+		shader_last_error = std::string("Shader index out of range (")
+			+ std::to_string(gmlShaders.wrappers.size()) + " total, attempted ID "
+			+ std::to_string(id) + ")";
+		return -1;
+	}
+	if (uniform_index < 0) return -1;
+	auto nsh = gmlShaders.native.get(wsh->shaderHandle);
+	auto varCount = nsh->constBufVarCount;
+	auto varArray = nsh->constBufVars;
+	auto bufCount = nsh->constBufferCount;
+	auto bufArray = nsh->constBuffers;
+	auto left = uniform_index;
+	for (auto i = 0; i < varCount; i++) {
+		auto& var = varArray[i];
+
+		auto bufIndex = var.bufferIndex;
+		if (bufIndex < 0 || bufIndex > bufCount) continue;
+
+		auto buf = bufArray[bufIndex];
+		if (buf.type != (YYShaderKind)uniform_type) continue;
+
+		if (--left < 0) return i;
+	}
+	return -1;
+}
+
+dllg const char* shader_get_uniform_name(int id, int uniform_index) {
+	trouble_check("");
+	auto wsh = gmlShaders.wrappers.get(id);
+	if (wsh == nullptr) {
+		shader_last_error = std::string("Shader index out of range (")
+			+ std::to_string(gmlShaders.wrappers.size()) + " total, attempted ID "
+			+ std::to_string(id) + ")";
+		return "";
+	}
+	auto nsh = gmlShaders.native.get(wsh->shaderHandle);
+	if (uniform_index < 0 || uniform_index >= nsh->constBufVarCount) {
+		shader_last_error = std::string("Shader uniform index out of range (")
+			+ std::to_string(nsh->constBufVarCount) + " total, attempted ID "
+			+ std::to_string(uniform_index) + ")";
+		return "";
+	}
+	return nsh->constBufVars[uniform_index].name;
 }
 
 // turns out that you don't REALLY have to use YYAlloc -
