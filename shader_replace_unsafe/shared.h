@@ -35,7 +35,7 @@ template<typename T> struct PtrArrayPtr {
 		return (*pItems)[index];
 	}
 	void set(int index, T* value) {
-		if (index < 0 || index >= *pCount) return nullptr;
+		if (index < 0 || index >= *pCount) return;
 		(*pItems)[index] = value;
 	}
 	inline int add(T* value) {
@@ -58,6 +58,7 @@ struct YYShaders {
 	PtrArrayPtr<YYNativeShader> native;
 };
 extern YYOriginalShaders gmlOriginal;
+#define gmlOriginalCount gmlOriginal.wrappers.count
 extern YYShaders gmlShaders;
 extern bool trouble;
 #define trouble_check(_ret) if (trouble) { shader_last_error = "The extension could not initialize."; return (_ret); }
@@ -77,28 +78,42 @@ struct CustomShaderBlob {
 	}
 };
 struct CustomShader {
-	// the pointer to this goes into the GML-side shader
+	// a pointer to this goes into wrapped->name
 	std::string name = "";
-	CustomShaderBlob vertex, pixel;
+	CustomShaderBlob vertex{};
+	CustomShaderBlob pixel{};
 	YYShader* wrapped = nullptr;
 	YYNativeShader* native = nullptr;
 	void release() {
 		#define X(arr) if (arr) { delete[] arr; arr = nullptr; }
 		if (wrapped) {
-
+			delete wrapped;
 		}
 		if (native) {
 			X(native->constBuffers);
 			X(native->constBufVars);
-			X(native->inputLayouts);
 			X(native->inputs);
 			X(native->samplers);
+			delete native;
 		}
+		vertex.release();
+		pixel.release();
 		#undef X
 	}
 };
 
 extern std::string shader_model;
+
 extern std::vector<CustomShader*> customShaders;
+inline CustomShader* getCustomShader(int id) {
+	return id >= 0 && id < customShaders.size() ? customShaders[id] : nullptr;
+}
+inline bool setCustomShader(int id, CustomShader* sh) {
+	if (id < 0) return false;
+	if (customShaders.size() <= id) customShaders.resize(id + 1);
+	customShaders[id] = sh;
+	return true;
+}
+
 extern std::string shader_path;
 extern std::string shader_last_error;

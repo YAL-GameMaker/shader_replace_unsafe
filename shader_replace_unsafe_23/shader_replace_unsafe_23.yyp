@@ -12,6 +12,7 @@
     {"id":{"name":"scr_vsh","path":"scripts/scr_vsh/scr_vsh.yy",},"order":1,},
     {"id":{"name":"scr_fsh","path":"scripts/scr_fsh/scr_fsh.yy",},"order":1,},
     {"id":{"name":"scr_oldsh","path":"scripts/scr_oldsh/scr_oldsh.yy",},"order":1,},
+    {"id":{"name":"scr_live_shader_pair","path":"scripts/scr_live_shader_pair/scr_live_shader_pair.yy",},"order":3,},
   ],
   "Options": [
     {"name":"Amazon Fire","path":"options/amazonfire/options_amazonfire.yy",},
@@ -58,6 +59,8 @@
   ],
   "IncludedFiles": [
     {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"shader_replace_unsafe.html","CopyToMask":-1,"filePath":"datafiles",},
+    {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"test.vsh","CopyToMask":-1,"filePath":"datafiles",},
+    {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"test.psh","CopyToMask":-1,"filePath":"datafiles",},
   ],
   "MetaData": {
     "IDEVersion": "2022.11.1.56",

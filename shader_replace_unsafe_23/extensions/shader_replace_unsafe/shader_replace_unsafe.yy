@@ -56,6 +56,12 @@
             1,
             1,
           ],"resourceVersion":"1.0","name":"shader_add_raw","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"shader_replace_raw","kind":11,"help":"","hidden":true,"returnType":2,"argCount":4,"args":[
+            1,
+            1,
+            1,
+            1,
+          ],"resourceVersion":"1.0","name":"shader_replace_raw","tags":[],"resourceType":"GMExtensionFunction",},
         {"externalName":"shader_replace_unsafe_init_offset","kind":11,"help":"","hidden":true,"returnType":2,"argCount":2,"args":[
             1,
             1,
@@ -78,6 +84,9 @@
         {"externalName":"shader_replace_unsafe_init_5","kind":11,"help":"","hidden":true,"returnType":2,"argCount":1,"args":[
             1,
           ],"resourceVersion":"1.0","name":"shader_replace_unsafe_init_5","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"shader_replace_unsafe_get_mtime","kind":1,"help":"shader_replace_unsafe_get_mtime(path)","hidden":false,"returnType":2,"argCount":1,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"shader_replace_unsafe_get_mtime","tags":[],"resourceType":"GMExtensionFunction",},
       ],"constants":[
         {"value":"1","hidden":false,"resourceVersion":"1.0","name":"shader_replace_unsafe_init_error_success","tags":[],"resourceType":"GMExtensionConstant",},
         {"value":"-1","hidden":false,"resourceVersion":"1.0","name":"shader_replace_unsafe_init_error_no_dll","tags":[],"resourceType":"GMExtensionConstant",},
@@ -96,12 +105,14 @@
         {"name":"shader_get_path_raw","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
         {"name":"shader_set_path_raw","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
         {"name":"shader_add_raw","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
+        {"name":"shader_replace_raw","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
         {"name":"shader_replace_unsafe_init_offset","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
         {"name":"shader_replace_unsafe_init_1","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
         {"name":"shader_replace_unsafe_init_2","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
         {"name":"shader_replace_unsafe_init_3","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
         {"name":"shader_replace_unsafe_init_4","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
         {"name":"shader_replace_unsafe_init_5","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
+        {"name":"shader_replace_unsafe_get_mtime","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
       ],"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMExtensionFile",},
     {"filename":"shader_replace_unsafe.gml","origname":"extensions\\gml.gml","init":"","final":"","kind":2,"uncompress":false,"functions":[
         {"externalName":"shader_replace_unsafe_init","kind":2,"help":"shader_replace_unsafe_init(?func_offset)->bool","hidden":false,"returnType":2,"argCount":-1,"args":[],"resourceVersion":"1.0","name":"shader_replace_unsafe_init","tags":[],"resourceType":"GMExtensionFunction",},
@@ -126,6 +137,11 @@
             2,
           ],"resourceVersion":"1.0","name":"shader_set_path","tags":[],"resourceType":"GMExtensionFunction",},
         {"externalName":"shader_add","kind":2,"help":"shader_add(vertex_code:string, fragment_code:string, name:string = \"shader!\")->int @dllg:defValue -1","hidden":false,"returnType":2,"argCount":-1,"args":[],"resourceVersion":"1.0","name":"shader_add","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"shader_replace","kind":2,"help":"shader_replace(id:int, vertex_code:string, fragment_code:string)->bool","hidden":false,"returnType":2,"argCount":3,"args":[
+            2,
+            2,
+            2,
+          ],"resourceVersion":"1.0","name":"shader_replace","tags":[],"resourceType":"GMExtensionFunction",},
       ],"constants":[
         
       ],"ProxyFiles":[],"copyToTargets":-1,"order":[
@@ -136,6 +152,7 @@
         {"name":"shader_get_path","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
         {"name":"shader_set_path","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
         {"name":"shader_add","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
+        {"name":"shader_replace","path":"extensions/shader_replace_unsafe/shader_replace_unsafe.yy",},
       ],"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMExtensionFile",},
   ],
   "classname": "",

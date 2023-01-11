@@ -40,20 +40,47 @@ CustomShader* shader_add_impl(const char* vertex_code, const char* fragment_code
 dllg int shader_add(const char* vertex_code, const char* fragment_code, const char* name = "shader!") {
 	trouble_check(-1);
 	auto csh = shader_add_impl(vertex_code, fragment_code, name);
+	if (csh == nullptr) return -1;
 
 	auto natID = gmlShaders.native.add(csh->native);
 	auto id = gmlShaders.wrappers.add(csh->wrapped);
 	csh->wrapped->shaderHandle = natID;
-
-	// If we don't set type to GLSLES, we have to do x-=1, y+=1, w=1 in vertex main()
-	// (cheers to GoldenEpsilon for figuring this out)
-	// This implies that there's some special handling depending on shader type, but how do
-	// handwritten HLSL shaders _usually_ work in GM then?
-	csh->wrapped->type = YYShaderType::GLSLES;
 	csh->wrapped->id = id;
 	shader_sync_uniforms(csh->wrapped);
+	setCustomShader(id, csh);
 
 	return id;
+}
+
+dllg bool shader_replace(int id, const char* vertex_code, const char* fragment_code) {
+	trouble_check(false);
+	if (id < 0 || id >= gmlShaders.wrappers.size()) {
+		shader_last_error = std::string("Shader index out of range (")
+			+ std::to_string(gmlShaders.wrappers.size()) + " total, requested "
+			+ std::to_string(id) + ")";
+		return false;
+	}
+
+	auto orig = gmlShaders.wrappers.get(id);
+
+	auto csh = shader_add_impl(vertex_code, fragment_code, orig->name);
+	if (csh == nullptr) return false;
+	auto natID = orig->shaderHandle;
+
+	auto oldCustomShader = getCustomShader(id);
+	if (oldCustomShader) {
+		oldCustomShader->release();
+		delete oldCustomShader;
+	}
+
+	gmlShaders.wrappers.set(id, csh->wrapped);
+	gmlShaders.native.set(natID, csh->native);
+	csh->wrapped->shaderHandle = natID;
+	csh->wrapped->id = id;
+	shader_sync_uniforms(csh->wrapped);
+	setCustomShader(id, csh);
+
+	return true;
 }
 
 // turns out that you don't REALLY have to use YYAlloc -

@@ -217,6 +217,11 @@ CustomShader* shader_add_impl(const char* vertex_code, const char* fragment_code
 		auto wsh = new YYShader();
 		wsh->HLSL11.vertexShader = nsh->vertexHeader->shaderData;
 		wsh->HLSL11.fragmentShader = nsh->pixelHeader->shaderData;
+		// If we don't set type to GLSLES, we have to do x-=1, y+=1, w=1 in vertex main()
+		// (cheers to GoldenEpsilon for figuring this out)
+		// This implies that there's some special handling depending on shader type, but how do
+		// handwritten HLSL shaders _usually_ work in GM then?
+		wsh->type = YYShaderType::GLSLES;
 
 		auto csh = new CustomShader();
 		csh->name = name;
@@ -224,7 +229,7 @@ CustomShader* shader_add_impl(const char* vertex_code, const char* fragment_code
 		csh->vertex.codeBlob = vertex_blob;
 		csh->vertex.reflection = vertex_reflection;
 		csh->pixel.codeBlob = pixel_blob;
-		csh->pixel.reflection = vertex_reflection;
+		csh->pixel.reflection = pixel_reflection;
 		csh->native = nsh;
 		csh->wrapped = wsh;
 

@@ -3,6 +3,9 @@
         "runtimeVersion": "runtime-2022.11.1.75"
     },
     "linterPrefs": {
-        
+        "specTypeInst": true,
+        "specTypeInstSubTopLevel": true,
+        "specTypeStatic": true,
+        "specTypeVar": true
     }
 }

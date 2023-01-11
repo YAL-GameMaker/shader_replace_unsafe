@@ -208,6 +208,7 @@
     <ClCompile Include="shader_replace_unsafe.cpp" />
     <ClCompile Include="shared.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="shader_replace_unsafe.rc" />
