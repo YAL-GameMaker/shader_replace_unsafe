@@ -1,5 +1,5 @@
 show_message("");
-var _init = shader_replace_unsafe_init(144);
+var _init = shader_replace_unsafe_init();
 if (_init <= 0) {
     trace("init failed, error: ", _init);
 }

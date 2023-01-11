@@ -16,6 +16,52 @@ enum class shader_replace_unsafe_init_error {
 	instr_init_failed = -5,
 };
 
+static bool canAccessMemory(const void* base, size_t size) {
+	const auto pmask = PAGE_READONLY | PAGE_READWRITE | PAGE_WRITECOPY
+		| PAGE_EXECUTE | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY;
+	::MEMORY_BASIC_INFORMATION mbi{};
+	size_t steps = size > 0 ? 2 : 1;
+	for (auto step = 0u; step < steps; step++) {
+		const void* addr = ((cmbyte*)base) + step * (size - 1);
+		if (!VirtualQuery(addr, &mbi, sizeof mbi)) return false;
+		if (mbi.State != MEM_COMMIT) return false;
+		if ((mbi.Protect & PAGE_GUARD) != 0) return false;
+		if ((mbi.Protect & pmask) == 0) return false;
+	}
+	return true;
+}
+dllx double shader_replace_unsafe_init_offset(cmbyte* _f1, cmbyte* _f2) {
+	ArrayOf<void*> f1 = auto_cast(_f1), f2 = auto_cast(_f2);
+	ArrayOf<void*> fx[] = {f1, f2};
+	::MEMORY_BASIC_INFORMATION mbi{};
+	const auto pExec = PAGE_EXECUTE | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY;
+	for (auto i = 10u; i < 24; i++) {
+		auto step = 0u;
+		for (; step < 2; step++) {
+			auto fi = fx[step];
+			if (!canAccessMemory(fi + i - 1, sizeof(void*) * 3)) return -1;
+
+			// should be NULL, <addr>, NULL
+			if (fi[i - 1] != nullptr) break;
+			if (fi[i] == nullptr) break;
+			if (fi[i + 1] != nullptr) break;
+			//trace("ind %d step %u: %p %p %p", i, step, *prev, *curr, *next);
+		}
+		if (step < 2u) continue;
+
+		// destination address must match:
+		auto dest = f1[i];
+		if (dest != f2[i]) continue;
+
+		// destination address must be executable:
+		if (!VirtualQuery(dest, &mbi, sizeof mbi)) continue;
+		if ((mbi.Protect & pExec) == 0) continue;
+		
+		return sizeof(void*) * i;
+	}
+	return -1;
+}
+
 cmbyte* csrGetCppAddr(cmbyte* _funcRef, int funcOffset) {
 	auto funcRef = (CScriptRef*)_funcRef;
 	bool suspiciousNeighbours;
