@@ -1,0 +1,8 @@
+shader_replace_unsafe-for-GMS1/*
+
+shader_replace_unsafe-for-GMS2/*
+!shader_replace_unsafe-for-GMS2/assetpackage.yy
+
+shader_replace_unsafe-for-GMS2.3+/*
+!shader_replace_unsafe-for-GMS2.3+/shader_replace_unsafe_23.yyp
+!shader_replace_unsafe-for-GMS2.3+/metadata.json

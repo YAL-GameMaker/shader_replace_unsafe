@@ -1,0 +1,7 @@
+```set template default.html```
+```set title shader_replace_unsafe cheat sheet```
+```set autoapi ext```
+```set intro
+This is a "cheat sheet" for "shader_replace_unsafe" extension by YellowAfterlife.
+The extension can be found on [itch.io](https://yellowafterlife.itch.io/gamemaker-shader_replace_unsafe).
+```
