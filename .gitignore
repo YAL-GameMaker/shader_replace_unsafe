@@ -3,6 +3,8 @@
 */Configs/*/*
 
 */extensions/*/*.cpp
+*/extensions/*/autogen.gml
+*/autogen.cpp
 */extensions/*/*.dll
 */datafiles/shader_replace_unsafe.html
 
