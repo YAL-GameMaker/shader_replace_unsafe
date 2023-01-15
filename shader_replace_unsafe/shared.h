@@ -8,6 +8,9 @@
 #include "YYRunnerInterface.h"
 extern YYRunnerInterface yyRunnerInterface;
 
+typedef int shader_id;
+typedef int shader_uniform_id;
+
 template<typename T> void yySetArrayWithCountToVector(ArrayOf<T>& out_items, int& out_count, std::vector<T>& in_vec) {
 	auto count = in_vec.size();
 	auto items = new T[count];

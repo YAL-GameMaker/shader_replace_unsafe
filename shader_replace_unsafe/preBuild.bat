@@ -13,8 +13,10 @@ if %ERRORLEVEL% EQU 0 (
 	GmlCppExtFuncs ^
 	--prefix shader_replace_unsafe^
 	--include "gml_internals.h"^
+	--include "shared.h"^
 	--cpp "%projectDir%autogen.cpp"^
 	--gml "%solutionDir%shader_replace_unsafe_23/extensions/shader_replace_unsafe/autogen.gml"^
 	%projectDir%init.cpp ^
+	%projectDir%shared.cpp ^
 	%projectDir%shader_replace_unsafe.cpp
 )

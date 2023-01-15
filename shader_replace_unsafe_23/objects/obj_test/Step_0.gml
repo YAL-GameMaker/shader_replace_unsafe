@@ -5,6 +5,7 @@ if (pair != undefined) {
     if (1) {
         var _sh = shader_add(pair[0], pair[1], "me");
         if (_sh != -1) {
+            shader_set_kind(_sh, shader_kind_glsles);
             shader_destroy(custom_shader);
             trace(sfmt("Destroyed shader %, created shader % (%ms)",custom_shader,_sh, current_time - _t))
             custom_shader = _sh;
@@ -13,6 +14,7 @@ if (pair != undefined) {
         }
     } else {
         if (shader_replace(custom_shader, pair[0], pair[1])) {
+            shader_set_kind(custom_shader, shader_kind_glsles);
             trace(sfmt("Replaced shader % (%ms)",custom_shader, current_time - _t));
         } else {
             trace("Replace failed: " + shader_get_last_error());

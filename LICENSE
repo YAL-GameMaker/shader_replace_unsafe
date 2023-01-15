@@ -9,6 +9,7 @@ Copyright (c) 2019- YellowAfterlife
 - **Executable Files** mean binary files with machine code - in this case `DLL`/`DyLib`/`SO` files.
 - **Official Distribution Channels** for this asset are:  
   - https://yellowafterlife.itch.io/gamemaker-shader-replace-simple
+  - https://marketplace.yoyogames.com/assets/8930/shader_replace_simple
 - **Source Code** means the contents of this repository, which includes handwritten code and does not include Generated Files or Executable Files.
 - **Asset** means a package containing Generated Files and Executable Files, either acquired through one of the Official Distribution Channels or compiled from the Source Code.
 

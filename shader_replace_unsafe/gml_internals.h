@@ -206,12 +206,13 @@ struct YYNativeShader {
 		// oh no
 	}
 };
-
-enum class YYShaderType {
-	GLSLES = 1,
-	GLSL,
-	HLSL9,
-	HLSL11,
+///
+enum class shader_kind { // snake_case because it gets exported to GML
+	none = 0,
+	glsl_es,
+	glsl,
+	hlsl_9,
+	hlsl_11,
 };
 struct YYShaderPair {
 	void* vertexShader = nullptr;
@@ -220,7 +221,7 @@ struct YYShaderPair {
 struct YYShader {
 	int id;
 	const char* name;
-	YYShaderType type;
+	shader_kind kind;
 	YYShaderPair GLSLES, GLSL, HLSL9, HLSL11;
 
 	YYShaderPair mysteryPairs[3];

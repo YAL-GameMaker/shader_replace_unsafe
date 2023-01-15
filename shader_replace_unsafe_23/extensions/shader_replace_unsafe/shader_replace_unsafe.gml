@@ -42,6 +42,18 @@ if (_result <= 0) return _result;
 
 return shader_replace_unsafe_init_5(_fptr(shader_get_sampler_index));
 
+#define shader_replace_unsafe_init_error_get_name
+/// (shader_replace_unsafe_init_error)->string
+switch (argument0) {
+    case shader_replace_unsafe_init_error_success: return "success";
+	case shader_replace_unsafe_init_error_no_dll: return "no_dll";
+	case shader_replace_unsafe_init_error_wrong_func_offset: return "wrong_func_offset";
+	case shader_replace_unsafe_init_error_no_shader_array: return "no_shader_array";
+	case shader_replace_unsafe_init_error_no_native_shader_array: return "no_native_shader_array";
+	case shader_replace_unsafe_init_error_instr_init_failed: return "instr_init_failed";
+	default: return "error " + string(argument0);
+}
+
 #define shader_replace_unsafe_prepare_buffer
 /// (size:int)->buffer~
 var _size = argument0;
